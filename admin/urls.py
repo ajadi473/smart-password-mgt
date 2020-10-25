@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.conf.urls import url
+from django.contrib.auth import views as auth_views
 
 from mainapp import views as views
 
@@ -27,6 +28,16 @@ urlpatterns = [
     # sign up view
     url(r'^signup/$', views.signup, name='signup' ),
 
+    # posts login request
+    path('login', views.log_in, name="loggedin"),
+
+    path('new_password', views.new_password, name="new_password"),
+
     # register
     url(r'^regster_user/$', views.register_new_user, name='regster_user' ),
+
+    # dashboard
+    url(r'^dashboard/$', views.dashboard, name='dashboard' ),
+
+    url(r'^logout/$', views.logout, name='logout'),
 ]
