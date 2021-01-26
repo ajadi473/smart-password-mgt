@@ -10,8 +10,8 @@ def home(request):
     return render(request, 'index.html')
 
 def logout(request):
-    logout(request)
-    redirect('')
+    # logout(request)
+    return redirect('/')
 
 def signup(request):
     return render(request, 'signup.html')
@@ -39,8 +39,8 @@ def register_new_user(request):
 
             user.save()
 
-            all_users = User.objects.values()
-            count_users = User.objects.all().count()
+            all_users = User.objects.all()
+            count_users = all_users.count()
             context= {'count_users': str(count_users), 'all_users': all_users}
             # messages.success(request, 'Sign up successful...')
             return redirect('dashboard', context)
@@ -63,6 +63,8 @@ def log_in(request):
             all_users = new_passwordsModel.objects.all()
             count_users = all_users.count()
             context= {'count_users': str(count_users), 'all_users': all_users}
+            print('logs user in')
+            return redirect('dashboard')
             return render(request, 'dashboard.html', context)
 
         else:
@@ -81,7 +83,13 @@ def log_in(request):
 
 @login_required(redirect_field_name='loggedin')
 def dashboard(request):
-    return render(request, 'dashboard.html')
+    all_users = new_passwordsModel.objects.all()
+    count_users = all_users.count()
+    context= {'count_users': str(count_users), 'all_users': all_users}
+    print('redirects user')
+    # return redirect('dashboard')
+    return render(request, 'dashboard.html', context)
+    # return render(request, 'dashboard.html')
 
 def new_password(request):
     if request.method == 'POST':

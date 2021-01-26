@@ -3,30 +3,35 @@
 Dashboard
 {% endblock %}
 {% block content %}
-<div class="limiter">
-    <div class="container-login100">
 
-        <div style="width: auto;
-        color: white;
-        position: relative;
-        margin-bottom: auto;"> 
-        {{ user.name}}
-        <a style="color: #fff;" href="/logout/"><i class="fa fa-lock"></i> Logout</a> </div>
-
-        <div class="row" style="color: white;
-                                z-index: auto;
-                                position: fixed;
-                                width: auto;
-                                top: 3%;
-                                font-size: larger;
-                                font-weight: bolder;">
-            <span> Passwords Stored: {{ 0 }}</span>
+<div class="container-fluid w-100" style="height: 100%">
+    <div class="row">
+        <div class="col-md-12">
+            <a style="color: #000;" href="{% url 'logout' %}"><i class="fa fa-lock"></i> Logout</a> </div>
         </div>
-
-        <!-- Button trigger modal -->
-
-
-            <form style="position: relative;margin: 0 auto;" class="" action="/new_password" method="POST">
+        <div class="col-md-6">
+            <span> Passwords Stored: {{ 0 }}</span>
+            {% for a in all_users %}
+                <div class="card mx-2" style="width: 18rem;float: left;">
+                    <div class="card-body">
+                    <h5 class="card-title">{{a.website}}</h5>
+                    <p class="card-text">
+                        <strong>Username: </strong>
+                            {{a.username}}
+                        <br>
+                        <strong>Password: </strong>
+                        <span style="z-index: 2;" class="password_hashed{{a.password }} ">pbkdf2_sha256$150000$*******</span> 
+                        <span hidden style="z-index:1;position: relative;" id="{{a.password }}" class="password_reveal">{{a.password }}</span>
+                        <br>
+                    </p>
+                    <button id="decrypt_btn" onclick="rev('{{ a.password  }}')" class="btn btn-sm btn-warning">Decrypt</button>
+                    <!-- rev('{{ a.password  }}') -->
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="col-md-6" style="float:left;">
+            <form style="" class="" action="/new_password" method="POST">
                 {% csrf_token %}
                 <h2 style="border-bottom: 2px solid #fff;" class="my-3">New Details? {% if user.email %} {{ user.first_name}} {% endif %}</h2>
                 <input type="hidden" name="user_mail" value="{{user.email}}">
@@ -34,29 +39,21 @@ Dashboard
                 <input type="text" name="username" class="form-control" placeholder="Username">
                 <input type="text" name="password" class="form-control" placeholder="Password">
                 <button type="submit" class="btn btn-success btn-block mt-3">
-                    <i class="fa fa-send"></i> Save
+                    <i class="fa fa-send"></i> Encrypt
                 </button>
             </form>
-
-
+        </div>
     </div>
 </div>
+<script type="text/javascript">
+    $('#decrypt_btn').click(function(){
+        alert('Yello');
+    });
 
-{% for a in all_users %}
-<div class="card mx-2" style="width: 18rem;float: left;">
-    <div class="card-body">
-      <h5 class="card-title">{{a.website}}</h5>
-      <p class="card-text">
-          <strong>Username: </strong>
-            {{a.username}}
-          <br>
-          <strong>Password: </strong>
-            {{a.password }}
-          <br>
-      </p>
-      <a href="{{a.password}}" class="btn btn-primary">Visit Site</a>
-    </div>
-</div>
-{% endfor %}
+    function rev(password) {
+        $('#password_hashed'+password).hide();
+        $('#'+password).show();
 
+    }
+</script>
 {% endblock %}

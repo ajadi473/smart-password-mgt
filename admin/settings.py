@@ -143,4 +143,5 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-LOGOUT_REDIRECT_URL = ''
+ACCOUNT_LOGOUT_REDIRECT_URL ='/accounts/login/'
+LOGIN_REDIRECT_URL = 'dashboard/'

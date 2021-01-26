@@ -34,7 +34,7 @@ urlpatterns = [
     path('new_password', views.new_password, name="new_password"),
 
     # register
-    url(r'^regster_user/$', views.register_new_user, name='regster_user' ),
+    url(r'^register_user/$', views.register_new_user, name='regster_user' ),
 
     # dashboard
     url(r'^dashboard/$', views.dashboard, name='dashboard' ),
