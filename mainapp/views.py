@@ -39,11 +39,12 @@ def register_new_user(request):
 
             user.save()
 
-            all_users = User.objects.all()
+            all_users = new_passwordsModel.objects.all()
             count_users = all_users.count()
             context= {'count_users': str(count_users), 'all_users': all_users}
-            # messages.success(request, 'Sign up successful...')
-            return redirect('dashboard', context)
+            messages.success(request, 'Sign up successful...')
+            return render(request, 'dashboard.html', context)
+
 
 # handles logging in a user
 def log_in(request):
