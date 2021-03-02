@@ -51,8 +51,9 @@ Dashboard
     });
 
     function rev(password) {
-        $('#password_hashed'+password).hide();
+        $('.password_hashed'+password).hide();
         $('#'+password).show();
+        $('#'+password).removeAttr('hidden');
 
     }
 </script>
